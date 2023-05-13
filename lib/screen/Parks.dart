@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happifeet/components/HappiFeetAppBar.dart';
+import 'package:happifeet/components/LocationView.dart';
 import 'package:happifeet/utils/ColorParser.dart';
 
 class Parks extends StatefulWidget {
@@ -43,9 +44,11 @@ class _ParksState extends State<Parks> {
                   flex: 0,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: ElevatedButton(
-                        onPressed: () {},
-                        child: const Text("Sort Alphabetically")),
+                    child: Center(
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text("Sort Alphabetically")),
+                    ),
                   ))
             ],
           ),
@@ -62,6 +65,17 @@ class _ParksState extends State<Parks> {
                         borderSide: BorderSide(
                             width: 1,
                             color: ColorParser().hexToColor("#AEAEAE"))))),
+          ),
+          Flexible(
+            flex: 1,
+            child: ListView.builder(
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: 15,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return const LocationView();
+              },
+            ),
           )
         ],
       ),
