@@ -10,13 +10,21 @@ import 'package:happifeet/model/HelpData.dart';
 import 'package:happifeet/screen/Dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-StreamController<ClientConfig> clientConfig = StreamController();
+StreamController<ClientConfig> clientConfig = StreamController.broadcast();
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  gotoHome(BuildContext context) {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyApp(),
+        ));
+  }
+
   const MyApp({super.key});
 
   @override
@@ -26,6 +34,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   List<ClientConfig> clients = [];
+
+  @override
+  void dispose() {
+    clientConfig.close();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -136,8 +150,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> saveClient(ClientConfig client) async {
-    debugPrint(JsonEncoder().convert(client.toJson()));
-    SharedPreferences.setMockInitialValues({});
+    debugPrint(const JsonEncoder().convert(client.toJson()));
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool result = await prefs.setString('client', jsonEncode(client));
@@ -167,11 +180,7 @@ class _PickerPageState extends State<PickerPage> {
               clientConfig.add(widget.clients[i]);
               Future.delayed(const Duration(milliseconds: 500), () {
                 setState(() {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Dashboard(),
-                      ));
+                  const Dashboard().goToDashboard(context);
                 });
               });
             },

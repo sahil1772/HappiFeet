@@ -2,6 +2,7 @@ F:/Personal Project/happifeet/build/windows/runner/Debug/data/icudtl.dat
 F:/Personal Project/happifeet/build/windows/runner/Debug/flutter_windows.dll
 F:/Personal Project/happifeet/build/windows/runner/Debug/data/flutter_assets/AssetManifest.bin
 F:/Personal Project/happifeet/build/windows/runner/Debug/data/flutter_assets/AssetManifest.json
+F:/Personal Project/happifeet/build/windows/runner/Debug/data/flutter_assets/assets/images/map.png
 F:/Personal Project/happifeet/build/windows/runner/Debug/data/flutter_assets/FontManifest.json
 F:/Personal Project/happifeet/build/windows/runner/Debug/data/flutter_assets/fonts/MaterialIcons-Regular.otf
 F:/Personal Project/happifeet/build/windows/runner/Debug/data/flutter_assets/kernel_blob.bin
