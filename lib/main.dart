@@ -8,6 +8,7 @@ import 'package:happifeet/model/ClientConfig.dart';
 import 'package:happifeet/model/Contact.dart';
 import 'package:happifeet/model/HelpData.dart';
 import 'package:happifeet/screen/Dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 StreamController<ClientConfig> clientConfig = StreamController();
 
@@ -43,7 +44,7 @@ class _MyAppState extends State<MyApp> {
 
           log("CLIENT SWITCHED : ", name: "SWITCHER", error: client.toJson());
 
-          debugPrint(JsonEncoder().convert(client.toJson()));
+          saveClient(client);
 
           return MaterialApp(
               theme: client.getAppTheme(),
@@ -133,6 +134,16 @@ class _MyAppState extends State<MyApp> {
     clients.add(getClient2());
     clients.add(getClient3());
   }
+
+  Future<void> saveClient(ClientConfig client) async {
+    debugPrint(JsonEncoder().convert(client.toJson()));
+    SharedPreferences.setMockInitialValues({});
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool result = await prefs.setString('client', jsonEncode(client));
+
+    log("CLIENT UPDATED?? ", name: "SWITCHER", error: result);
+  }
 }
 
 class PickerPage extends StatefulWidget {
@@ -156,7 +167,7 @@ class _PickerPageState extends State<PickerPage> {
               clientConfig.add(widget.clients[i]);
               Future.delayed(const Duration(milliseconds: 500), () {
                 setState(() {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => Dashboard(),
