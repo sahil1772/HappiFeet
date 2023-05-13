@@ -22,7 +22,8 @@ class _ParksState extends State<Parks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HappiFeetAppBar(IsDashboard: false).getAppBar(context),
+      appBar: HappiFeetAppBar(IsDashboard: false, IsThankYou: false)
+          .getAppBar(context),
       body: Column(
         children: [
           Flex(

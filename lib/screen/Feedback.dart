@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:happifeet/components/ExpandedSection.dart';
 import 'package:happifeet/components/HappiFeetAppBar.dart';
 import 'package:happifeet/components/LocationView.dart';
+import 'package:happifeet/screen/Thankyou.dart';
 import 'package:happifeet/utils/ColorParser.dart';
 
 class FeedbackPage extends StatefulWidget {
@@ -13,6 +15,8 @@ class FeedbackPage extends StatefulWidget {
           ),
         ));
   }
+
+  bool expand = false;
 
   String locationId;
 
@@ -33,7 +37,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HappiFeetAppBar(IsDashboard: false).getAppBar(context),
+      appBar: HappiFeetAppBar(IsDashboard: false, IsThankYou: false)
+          .getAppBar(context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,10 +48,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
             getTextFields(),
             getAttachmentFields(),
             Container(
-                margin: EdgeInsets.all(16.0),
+                margin: const EdgeInsets.all(16.0),
                 width: MediaQuery.of(context).size.width,
                 height: 48,
-                child: ElevatedButton(onPressed: () {}, child: Text("Submit")))
+                child: ElevatedButton(
+                    onPressed: () {
+                      ThankYou(feedbackId: "1").goToThankYou(context, "1");
+                    },
+                    child: const Text("Submit")))
           ],
         ),
       ),
@@ -69,30 +78,26 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flexible(
-                      child: Radio(
-                        value: Anonymous.Yes,
-                        groupValue: IsAnonymous,
-                        onChanged: (value) {
-                          setState(() {
-                            IsAnonymous = value as Anonymous;
-                          });
-                        },
-                      ),
+                    Radio(
+                      value: Anonymous.Yes,
+                      groupValue: IsAnonymous,
+                      onChanged: (value) {
+                        setState(() {
+                          IsAnonymous = value as Anonymous;
+                        });
+                      },
                     ),
                     const Text("Yes"),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
-                      child: Flexible(
-                        child: Radio(
-                          value: Anonymous.No,
-                          groupValue: IsAnonymous,
-                          onChanged: (value) {
-                            setState(() {
-                              IsAnonymous = value;
-                            });
-                          },
-                        ),
+                      child: Radio(
+                        value: Anonymous.No,
+                        groupValue: IsAnonymous,
+                        onChanged: (value) {
+                          setState(() {
+                            IsAnonymous = value;
+                          });
+                        },
                       ),
                     ),
                     const Text("No"),
@@ -115,30 +120,26 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Flexible(
+                    Radio(
+                      value: Location.Yes,
+                      groupValue: AllowLocation,
+                      onChanged: (value) {
+                        setState(() {
+                          AllowLocation = value;
+                        });
+                      },
+                    ),
+                    const Text("Yes"),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
                       child: Radio(
-                        value: Location.Yes,
+                        value: Location.No,
                         groupValue: AllowLocation,
                         onChanged: (value) {
                           setState(() {
                             AllowLocation = value;
                           });
                         },
-                      ),
-                    ),
-                    const Text("Yes"),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Flexible(
-                        child: Radio(
-                          value: Location.No,
-                          groupValue: AllowLocation,
-                          onChanged: (value) {
-                            setState(() {
-                              AllowLocation = value;
-                            });
-                          },
-                        ),
                       ),
                     ),
                     const Text("No"),
@@ -206,23 +207,143 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   getAttachmentFields() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Flex(
-          direction: Axis.horizontal,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              fit: FlexFit.loose,
-              child: TextButton(
-                  onPressed: () {}, child: Text("Attach Images/Videos")),
-            ),
-            Flexible(
-              flex: 0,
-              fit: FlexFit.tight,
-              child: Text("0/3"),
-            ),
-          ]),
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
+        children: [
+          Flex(
+              direction: Axis.horizontal,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: TextButton(
+                      onPressed: () {
+                        setState(() {
+                          widget.expand = !widget.expand;
+                        });
+                      },
+                      child: const Text("Attach Images/Videos")),
+                ),
+                const Flexible(
+                  flex: 0,
+                  fit: FlexFit.tight,
+                  child: Text("0/3"),
+                ),
+              ]),
+          ExpandedSection(
+              expand: widget.expand,
+              child: Card(
+                color: Theme.of(context).primaryColor,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Flex(
+                    direction: Axis.horizontal,
+                    children: [
+                      Flexible(
+                          fit: FlexFit.tight,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.camera,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "Capture\nImage",
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )),
+                      Container(
+                        width: 1,
+                        color: Colors.white,
+                      ),
+                      Flexible(
+                          fit: FlexFit.tight,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.image_search,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "Pick from\nGallery",
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )),
+                      Container(
+                        width: 1,
+                        color: Colors.white,
+                      ),
+                      Flexible(
+                          fit: FlexFit.tight,
+                          child: InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.video_call,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Text(
+                                      "Capture\nVideo",
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+              ))
+        ],
+      ),
     );
   }
 }

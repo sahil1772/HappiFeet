@@ -21,7 +21,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HappiFeetAppBar(IsDashboard: true).getAppBar(context),
+      appBar: HappiFeetAppBar(IsDashboard: true, IsThankYou: false)
+          .getAppBar(context),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
