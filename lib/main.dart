@@ -108,14 +108,14 @@ class _MyAppState extends State<MyApp> {
             appContactDescription: "appContactDescription"),
         appAboutUs: AboutUs(
             appAboutUsDescription:
-                "HAPPiFEET empowers parks and recreation agencies to address customer issues in real-time so they can KEEP HAPPiFEET...\nbecause unhappy customers vote with their feet.\n\n\nUsers share via text, pictures or videos their experiences from any custom location. Agency staff receives and can respond to guests in real-time.\nApp dashboards allow agencies to track user feedback daily, weekly, annually or by any individual site in the system and use real-time data to meet and exceed community expectations."),
+            "HAPPiFEET empowers parks and recreation agencies to address customer issues in real-time so they can KEEP HAPPiFEET...\nbecause unhappy customers vote with their feet.\n\n\nUsers share via text, pictures or videos their experiences from any custom location. Agency staff receives and can respond to guests in real-time.\nApp dashboards allow agencies to track user feedback daily, weekly, annually or by any individual site in the system and use real-time data to meet and exceed community expectations."),
         appHelpData:
-            HelpData(id: 102.toString(), imageLink: "imageLink", imagePos: 0),
+        HelpData(id: 102.toString(), imageLink: "imageLink", imagePos: 0),
         canScanQR: false);
 
-    client.appPrimaryColor = "#00ff00";
-    client.appAccentColor = "#00ff00";
-    client.appSecondaryColor = "#00ff00";
+    client.appPrimaryColor = "#509050";
+    client.appAccentColor = "#509050";
+    client.appSecondaryColor = "#509050";
     return client;
   }
 
